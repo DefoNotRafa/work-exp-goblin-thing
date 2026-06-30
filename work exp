@@ -1,0 +1,280 @@
+
+
+
+import random
+import time
+
+RED = "\033[91m"               ## ASCI COLORS
+GREEN = "\033[92m"
+YELLOW = "\033[1;33m"
+BLUE = "\033[94m"                     
+PURPLE = "\033[95m"
+BOLD = "\033[1m"
+END = "\033[0m"
+
+
+PlayerHP = 100
+GoblinHP = 150
+
+HasHand = True
+
+inventory = ["Potion", "Potion"]
+
+GoblinMoves = [
+	{"attack": "ClubSmash", "damage": random.randint(20, 50)},
+	{"attack": "Bite", "damage": random.randint(10, 20)},
+	{"attack": "MudSlap", "damage": random.randint(10, 20)},
+	{"attack": "Heal", "HealAmount": random.randint(10, 40)},
+]
+
+PlayerMoves = [
+	{"attack1": "ShootArrow", "damage1": (10, 30)},
+	{"attack1": "SwordSlice", "damage1": 15},
+	{"attack1": "HeadChop", "damage1": 65},
+	{"attack1": "Punch", "damage1": 8},
+]
+print(f"{BOLD}{PURPLE} !!!! DISCLAIMER !!!! every single input has no capitals{END}")
+print(f"{PURPLE} {BOLD} TIP: punching has a 50% chance to give you a potion {END}")
+
+
+while PlayerHP > 0 and GoblinHP > 0:
+	print(
+		f"{GREEN} Player HP:  {BOLD}{PlayerHP}{END} {RED} Goblin HP: {BOLD}  {GoblinHP}{END}"
+	)
+	choice = input(
+		f"would u like to {RED} attack{END} / {GREEN} heal{END} or check your {PURPLE} {BOLD}'inventory'{END}? "
+	).lower()
+
+	if choice == "attack":
+		if not HasHand:
+			arm = input(
+				f"Are you sure you would like to punch? {GREEN}Y{END}/{RED}N{END} "
+			).lower()
+			if arm == "y":
+				GoblinHP = GoblinHP - 4
+				print(
+					f"you punch the goblin and it stands unfazed, 4 damage, goblin now has {GoblinHP} HP left"
+				)
+			elif arm == "n":
+				continue
+		else:
+			question = input(
+				f"What attack? {BOLD}{YELLOW}'shootarrow'{END}, {BOLD}{YELLOW}'sword'{END}, or {BOLD}{YELLOW}'punch'{END}? ({PURPLE}back{END} to cancel) "
+			).lower()
+
+			if question == "back":
+				continue
+
+			elif question == "shootarrow":
+				if not HasHand:
+					print(
+						f"{BLUE} you cannot use the bow and missed a turn (your arm was bitten off {BOLD} dummy {END}"
+					)
+					time.sleep(2)
+					continue
+				print(
+					f"{PURPLE}get ready to press {YELLOW}'w + enter'{END} as fast as possible..{END}"
+				)
+				time.sleep(2)
+				print("ready..")
+				time.sleep(random.randint(1, 3))
+				print(f"{BLUE}SHOOT{END}")
+
+				Stopwatch = time.time()
+				timing = input("w").lower()
+				Endtime = time.time()
+
+				reactiontime = Endtime - Stopwatch
+
+				# fastest, headshot 30 dmg
+				if timing == "w" and reactiontime < 0.5:
+					print("Headshot, 30 damage")
+					GoblinHP = GoblinHP - 30
+					print(f"{BLUE} goblin now has {RED}{GoblinHP} HP{END} left {END}")
+
+					# 15 dmg kinda late
+				elif timing == "w" and reactiontime >= 0.5 and reactiontime < 1:
+					print("Shoulder Shot, 15 damage")
+					GoblinHP = GoblinHP - 15
+					print(f"{BLUE}goblin now has {RED}{GoblinHP} HP{END} left now")
+
+					# late
+				elif timing == "w" and reactiontime >= 1 and reactiontime <= 1.8:
+					print(f"{RED} late, the arrow slipped out{END}")
+
+				else:
+					slip = random.randint(1, 100)
+					print(f"{RED} pressed wrong key, arrow slipped out.{END}")
+					if slip == 67:
+						print(
+							## cool easter egg
+							f"{PURPLE}.... 1 in 100 chance for this to happen (yes actually coded this way rafael doesnt know i made this but maybe he will know when he reads..).. a miracle, since the arrow slipped, it landed onto your foot and split atoms, say goodbye to your body and the goblin.{END} "
+						)
+						for i in range(10, 0, -1):
+							print("nuking everything in", i)
+							time.sleep(1)
+						print("boom")
+						PlayerHP = 0
+						GoblinHP = 0
+						break
+
+			elif question == "sword":
+				if not HasHand:
+					print(
+						f"{RED} {BOLD} your arm was bitten off {END} {RED} and you {BOLD} cannot use the sword or bow. you missed a turn{END}"
+					)
+					continue
+				swrd = input(
+					f"{END}{BOLD} swordslice:{END} {RED} 15 {END} damage, {BOLD} headchop: {END} {RED} 65{END} damage "
+				).lower()
+				if swrd == "swordslice":
+					GoblinHP = GoblinHP - 15
+					print(
+						f"{PURPLE}SWOOSH{END}, dealt {RED}15 damage{END}. Goblin now has {RED}{GoblinHP} HP{END} left"
+					)
+				elif swrd == "headchop":
+					time.sleep(1)
+					print(
+						f"get ready to press {BOLD}{YELLOW}'w + enter'{END} as {YELLOW}fast as possible.."
+					)
+					time.sleep(1)
+					print(f"{BLUE}ready..")
+					time.sleep(random.randint(2, 5))
+					print(f"{PURPLE}{BOLD}SLICE{END}")
+
+					Stopwatch = time.time()
+					timing = input("w").lower()
+					Endtime = time.time()
+
+					reactiontime = Endtime - Stopwatch
+					Bitemove = GoblinMoves[1]
+					BiteDamage = Bitemove["damage"]
+					if timing == "w" and reactiontime <= 0.3:
+						print("HeadShot, 65 damage")
+						GoblinHP = GoblinHP - 65
+						print(f"goblin now has {GoblinHP} HP left")
+					elif timing == "w" and reactiontime > 0.3:
+						time.sleep(1)
+						print(
+							f"{RED}Missed. {END}0 damage, you landed into the goblins arms and it stabbed your back with their dagger, 30 damage"
+						)
+						time.sleep(2)
+						PlayerHP = PlayerHP - 30
+						print(f"you now have {PlayerHP} HP left")
+						time.sleep(1)
+					else:
+						time.sleep(1)
+						print(
+							f"pressed wrong key, you were too scared to slice it and it bit your arm off causing you to lose 40 HP and your dominant hand, removing the ability to use bow and sword attacks, your only choice is to punch which now does half the damage (4 damage). you now have {PlayerHP} HP left."
+						)
+						PlayerHP = PlayerHP - 40
+						HasHand = False
+
+				else:
+					print("typo? try again.")
+					time.sleep(1)
+					continue
+
+			elif question == "punch":
+				GoblinHP = GoblinHP - 8
+				print(
+					f"you hold your fist up and smack the goblin in the face, you deal 8 damage and the goblin now has {GoblinHP} HP left"
+				)
+
+				potionchance = random.randint(1, 3)
+				if potionchance == 1:
+					inventory.append("Potion")
+					print(f"{GREEN} lucky. you gained a potion.{END}")
+					time.sleep(1)
+
+			else:
+				print("did you do a typo? try again.")
+				time.sleep(1)
+				continue
+
+	elif choice == "heal":
+		if "Potion" in inventory:
+			inventory.remove("Potion")
+			print(
+				f"there are now {inventory.count('Potion')} potions inside your inventory."
+			)
+
+			PlayerHP = PlayerHP + 20
+			print(f"your new health is: {PlayerHP}")
+			time.sleep(1)
+
+		else:
+			print("you have no potions in your inventory")
+	elif choice == "inventory":
+		print(
+			f"there are now {inventory.count('Potion')} potions inside your inventory."
+		)
+
+		if HasHand:
+			print("you also have your arm")
+		elif not HasHand:
+			print("ur missin an arm BUDDY")
+		time.sleep(1)
+		continue
+	else:
+		print("typo? try again.")
+		time.sleep(1)
+		continue
+
+	time.sleep(1)
+	print(f"{RED}Goblin is Deciding")
+	time.sleep(2)
+
+	GoblinChoice = random.choice(GoblinMoves)
+	if "HealAmount" in GoblinChoice:
+		healing = GoblinChoice["HealAmount"]
+		GoblinHP = GoblinHP + healing
+		print(
+			f"{YELLOW}the goblin found a snack and {GREEN}healed {BOLD}{RED}{healing} HP.{END} Goblin now has {BOLD}{RED}{GoblinHP} HP left"
+		)
+
+	else:
+		PlayerHP = PlayerHP - GoblinChoice["damage"]
+		print(
+			f"{BOLD}goblin used {RED}{GoblinChoice['attack']}{END} and did {RED}{BOLD}{GoblinChoice['damage']} damage {END}to you"
+		)
+	if GoblinHP <= 0:
+		win = input(
+			f"{GREEN}you killed the goblin, level up, try again but harder?{END} {GREEN}{BOLD}Y{END}/{RED}{BOLD}N{END}"
+		).lower()
+		if win == "y":
+			print(f"{PURPLE} travelling back in time")
+			GoblinHP = 200
+			PlayerHP = 50
+			HasHand = True
+			print(
+				f"{PURPLE}"
+			)
+			time.sleep(random.randint(1, 20))
+			continue
+		elif win == "n":
+			break
+
+	if PlayerHP <= 0:
+		dead = input(
+			f"{RED}you died. try again?{GREEN}{BOLD} Y{END}/{RED}{BOLD}N{END} "
+		).lower()
+		if dead == "n":
+			break
+		elif dead == "y":
+			print(f"{PURPLE} back in time")
+			GoblinHP = 125
+			PlayerHP = 100
+			HasHand = True
+			if inventory == [""]:
+				inventory.append("Potion")
+				inventory.append("Potion")
+			elif inventory == ["Potion"]:
+				inventory.append("Potion")
+			continue
+
+### notes:
+# sp i need to fix the sword minigame and rafael will teach me classes later
+# fix hand
+# fix sword minigame
+# fix goblins text
