@@ -1,13 +1,10 @@
-
-
-
 import random
 import time
 
-RED = "\033[91m"               ## ASCI COLORS
+RED = "\033[91m"  ## ASCI COLORS
 GREEN = "\033[92m"
 YELLOW = "\033[1;33m"
-BLUE = "\033[94m"                     
+BLUE = "\033[94m"
 PURPLE = "\033[95m"
 BOLD = "\033[1m"
 END = "\033[0m"
@@ -33,6 +30,9 @@ PlayerMoves = [
 	{"attack1": "HeadChop", "damage1": 65},
 	{"attack1": "Punch", "damage1": 8},
 ]
+print("MY WORK RAFA TAUGHT ME. ENJOY.")
+time.sleep(1)
+
 print(f"{BOLD}{PURPLE} !!!! DISCLAIMER !!!! every single input has no capitals{END}")
 print(f"{PURPLE} {BOLD} TIP: punching has a 50% chance to give you a potion {END}")
 
@@ -149,11 +149,11 @@ while PlayerHP > 0 and GoblinHP > 0:
 					reactiontime = Endtime - Stopwatch
 					Bitemove = GoblinMoves[1]
 					BiteDamage = Bitemove["damage"]
-					if timing == "w" and reactiontime <= 0.3:
+					if timing == "w" and reactiontime <= 0.33:
 						print("HeadShot, 65 damage")
 						GoblinHP = GoblinHP - 65
 						print(f"goblin now has {GoblinHP} HP left")
-					elif timing == "w" and reactiontime > 0.3:
+					elif timing == "w" and reactiontime > 0.33:
 						time.sleep(1)
 						print(
 							f"{RED}Missed. {END}0 damage, you landed into the goblins arms and it stabbed your back with their dagger, 30 damage"
@@ -181,9 +181,10 @@ while PlayerHP > 0 and GoblinHP > 0:
 					f"you hold your fist up and smack the goblin in the face, you deal 8 damage and the goblin now has {GoblinHP} HP left"
 				)
 
-				potionchance = random.randint(1, 3)
+				potionchance = random.randint(1, 2)
 				if potionchance == 1:
 					inventory.append("Potion")
+					time.sleep(0.5)
 					print(f"{GREEN} lucky. you gained a potion.{END}")
 					time.sleep(1)
 
@@ -196,25 +197,25 @@ while PlayerHP > 0 and GoblinHP > 0:
 		if "Potion" in inventory:
 			inventory.remove("Potion")
 			print(
-				f"there are now {inventory.count('Potion')} potions inside your inventory."
+				f"there are now {GREEN}{inventory.count('Potion')} potions{END} inside your {PURPLE}inventory.{END}"
 			)
 
 			PlayerHP = PlayerHP + 20
 			print(f"your new health is: {PlayerHP}")
-			time.sleep(1)
+			time.sleep(1.5)
 
 		else:
 			print("you have no potions in your inventory")
 	elif choice == "inventory":
 		print(
-			f"there are now {inventory.count('Potion')} potions inside your inventory."
+			f"there are now {GREEN}{inventory.count('Potion')} potions{END} inside your {PURPLE}inventory.{END}"
 		)
 
 		if HasHand:
-			print("you also have your arm")
+			print(f"you also have your {BLUE}arm..{END}")
 		elif not HasHand:
 			print("ur missin an arm BUDDY")
-		time.sleep(1)
+		time.sleep(2)
 		continue
 	else:
 		print("typo? try again.")
@@ -247,9 +248,7 @@ while PlayerHP > 0 and GoblinHP > 0:
 			GoblinHP = 200
 			PlayerHP = 50
 			HasHand = True
-			print(
-				f"{PURPLE}"
-			)
+			print(f"{PURPLE}")
 			time.sleep(random.randint(1, 20))
 			continue
 		elif win == "n":
